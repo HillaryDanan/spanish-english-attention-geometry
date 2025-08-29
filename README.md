@@ -107,6 +107,15 @@ While the core study focuses on empirically testable claims, several speculative
 - Potential connections to processing reversibility
 - Geometric structure variations across language families
 
+## Future Methodological Extensions
+
+Based on initial review, several methodological enhancements are planned:
+
+- **Tokenization Analysis**: Examine token-level patterns to isolate subword tokenization effects from orthographic transparency
+- **Randomized Baselines**: Compare observed differences against randomized attention matrices to establish chance-level variations
+- **Cross-Model Validation**: Extend beyond mBERT to XLM-R, mT5, and BLOOM for architectural robustness
+- **Longitudinal Layer Analysis**: Track how patterns evolve through layers to understand processing dynamics
+
 ## Citation
 
 If you use this code or methodology, please cite:
