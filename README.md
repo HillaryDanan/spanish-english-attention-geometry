@@ -141,3 +141,12 @@ For questions or collaboration inquiries, please open an issue on this repositor
 ---
 
 *This research prioritizes scientific rigor and reproducibility. All claims are grounded in peer-reviewed literature, with clear delineation between established findings and exploratory hypotheses.*
+
+## Preliminary Findings (N=3)
+
+Initial tests show English with higher attention density than Spanish across most layers - opposite of our hypothesis. This could indicate:
+- Transparent orthographies may enable sparser (more efficient) attention patterns
+- Opaque orthographies may require denser connections for processing
+- Sample size too small for meaningful conclusions
+
+The framework successfully detects cross-linguistic differences. Full study needed to determine true direction of effect.
