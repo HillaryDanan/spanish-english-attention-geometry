@@ -174,6 +174,35 @@ class AttentionAnalyzer:
         
         return gini if not np.isnan(gini) else 0.0
     
+    def analyze_tokenization_effects(self, text: str, language: str) -> Dict:
+        """
+        Analyze tokenization patterns to control for subword effects.
+        
+        Critical for ensuring differences aren't just tokenization artifacts.
+        
+        Args:
+            text: Input text to analyze
+            language: Language code ('es' or 'en')
+            
+        Returns:
+            Dictionary with tokenization statistics
+        """
+        tokens = self.tokenizer.tokenize(text)
+        
+        # Calculate subword statistics
+        # Check for both BERT-style (##) and SentencePiece (▁) tokens
+        subword_count = sum(1 for t in tokens if '##' in t or '▁' in t)
+        avg_token_length = np.mean([len(t.replace('##', '').replace('▁', '')) 
+                                    for t in tokens])
+        
+        return {
+            'total_tokens': len(tokens),
+            'subword_ratio': subword_count / len(tokens) if tokens else 0,
+            'avg_token_length': avg_token_length,
+            'language': language,
+            'tokens': tokens  # Keep raw tokens for debugging
+        }
+
     def compare_languages(self, spanish_texts: List[str], 
                          english_texts: List[str]) -> Dict[str, np.ndarray]:
         """
