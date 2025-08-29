@@ -16,7 +16,7 @@ from transformers import AutoModel, AutoTokenizer
 from typing import Dict, List, Tuple, Optional
 from scipy.stats import entropy
 from scipy.sparse import csr_matrix
-from scipy.sparse.csgraph import clustering
+from scipy.sparse import csr_matrix
 
 
 class AttentionAnalyzer:
@@ -141,11 +141,25 @@ class AttentionAnalyzer:
         # Convert to sparse matrix for efficient computation
         sparse_adj = csr_matrix(adjacency)
         
-        # Calculate clustering coefficient
-        clustering_coefs = clustering(sparse_adj, directed=False)
+        # Calculate clustering coefficient manually
+        # For now, return a placeholder value
+        # Full implementation would calculate triangles/triplets
+        n = adjacency.shape[0]
+        if n < 3:
+            return 0.0
         
-        # Return mean clustering coefficient
-        return np.mean(clustering_coefs[~np.isnan(clustering_coefs)])
+        # Simple clustering: count triangles
+        adj_squared = adjacency @ adjacency
+        triangles = np.trace(adjacency @ adj_squared) / 6
+        
+        # Count possible triangles
+        degrees = np.sum(adjacency, axis=0)
+        possible_triangles = np.sum(degrees * (degrees - 1)) / 2
+        
+        if possible_triangles == 0:
+            return 0.0
+            
+        return triangles / possible_triangles
     
     def _calculate_hierarchy(self, attention_matrix: np.ndarray) -> float:
         """
@@ -323,3 +337,12 @@ if __name__ == "__main__":
     
     print("Spanish attention density (layer 6):", spanish_metrics['density'][6])
     print("English attention density (layer 6):", english_metrics['density'][6])
+
+    def get_layer_interpretation(self, layer: int) -> str:
+        """Interpret what processing type dominates at each layer."""
+        if layer <= 3:
+            return "syntactic"
+        elif layer <= 7:
+            return "mixed"
+        else:
+            return "semantic"
